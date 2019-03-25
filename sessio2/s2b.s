@@ -23,9 +23,8 @@ main:
 	bne $s0, $t1, else 
 	
 if:	#result = num
-	la $t1, result
-	sw $t0, 0($t1)
-	jr $ra
+	move $t3, $t0
+	b fi
 
 else:	
 	slti $t2, $t0, '0'
@@ -33,14 +32,13 @@ else:
 	beq $zero, $t2, else2
 	slti $t3, $t0, 58  #58 is the ASCII code for ('9' + 1)
 	beq $zero, $t3, else2
-	la $t1, result
-	addiu $t0, $t0, -48 #48 is the ASCII code for '0'
-	sw $t0, 0($t1)
-	jr $ra
+	addiu $t3, $t0, -48 #48 is the ASCII code for '0'
+	b fi
 	
 else2: 
-	la $t1, result
-	addiu $t0, $zero, -1
-	sw $t0, 0($t1)
-	jr $ra
+	li $t3, -1
 
+fi:
+	la $t1, result
+	sw $t3, 0($t1)
+	jr $ra
